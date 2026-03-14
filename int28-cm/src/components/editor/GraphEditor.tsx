@@ -511,7 +511,7 @@ function GraphEditorInner({
           </span>
           {isFirstTime && (
             <button className="primary-btn" onClick={handleFirstTimeDone}>
-              I'm done →
+              Show →
             </button>
           )}
           {!isFirstTime && (
