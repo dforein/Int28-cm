@@ -43,16 +43,15 @@ npx wrangler d1 execute int28-cm --local --file=schema.sql
 ```
 
 ### 3. Set environment variables
+Start the server with
+
+then create a user and copy the key.
+
 Create `.env.local`:
 ```
-VITE_ADMIN_USER_ID=your-uuid-here
+VITE_ADMIN_USER_ID=your-key-here
 ```
-
-And in `wrangler.toml` under `[vars]`:
-```toml
-[vars]
-ADMIN_USER_ID = "your-uuid-here"
-```
+in order to make that user admin.
 
 ### 4. Start the dev server
 ```bash
@@ -73,26 +72,38 @@ Open [http://localhost:5173](http://localhost:5173).
 ```bash
 wrangler d1 create int28-cm
 ```
-Copy the returned `database_id` into `wrangler.toml`.
+Copy the returned `database_id`.
 
-### 2. Run the schema on production
+### 2. Update `wrangler.toml`
+Update this line with your `database_id`:
+```
+database_id = "your-database-id-here"
+```
+
+### 3. Run the schema on production
 ```bash
 wrangler d1 execute int28-cm --file=schema.sql
 ```
 
-### 3. Push to GitHub and connect to Cloudflare Pages
+### 4. Push to GitHub
+
+### 5. Connect to Cloudflare Pages
+In the Cloudflare dashboard, create a new Pages project connected to your GitHub repo:
 - Build command: `npm run build`
 - Build output directory: `dist`
 
-### 4. Set environment variables in Cloudflare Pages
-- `VITE_ADMIN_USER_ID` — your admin UUID (Settings → Environment variables)
+### 6. Set environment variables
+In Cloudflare Pages → Settings → Environment variables, add:
+- `VITE_ADMIN_USER_ID` — your admin UUID (needed at build time for Vite)
 
-### 5. Set the admin secret
+In Cloudflare Pages → Settings → Functions → D1 database bindings, add:
+- Binding name: `DB`, select your `int28-cm` database
+
+### 7. Set the admin secret
 ```bash
 wrangler pages secret put ADMIN_USER_ID
 ```
-
----
+Paste the same UUID used for `VITE_ADMIN_USER_ID`. This is read server-side by the Functions.
 
 ## Admin panel
 
