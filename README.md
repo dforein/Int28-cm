@@ -92,18 +92,19 @@ In the Cloudflare dashboard, create a new Pages project connected to your GitHub
 - Build command: `npm run build`
 - Build output directory: `dist`
 
-### 6. Set environment variables
-In Cloudflare Pages → Settings → Environment variables, add:
-- `VITE_ADMIN_USER_ID` — your admin UUID (needed at build time for Vite)
-
+### 6. Set database binding
 In Cloudflare Pages → Settings → Functions → D1 database bindings, add:
 - Binding name: `DB`, select your `int28-cm` database
 
 ### 7. Set the admin secret
+Create a user, copy the key and add a new secret in the Dashboard named `ADMIN_USER_ID`
+and paste the key in the value field.
+Or send a command:
 ```bash
 wrangler pages secret put ADMIN_USER_ID
 ```
-Paste the same UUID used for `VITE_ADMIN_USER_ID`. This is read server-side by the Functions.
+pasting the key.
+This is read server-side by the Functions.
 
 ## Admin panel
 

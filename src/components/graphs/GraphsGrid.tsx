@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { getGraphs } from '../../api/client';
+import { getGraphs, checkIsAdmin } from '../../api/client';
 import type { Graph } from '../../types';
 import { useUserStore } from '../../store/userStore';
 import GraphCard from './GraphCard';
@@ -10,8 +10,6 @@ interface Props {
   onSelect: (graphId: string) => void;
 }
 
-const ADMIN_ENV = import.meta.env.VITE_ADMIN_USER_ID ?? '';
-
 export default function GraphsGrid({ onSelect }: Props) {
   const user = useUserStore((s) => s.user);
   const clearUser = useUserStore((s) => s.clearUser);
@@ -19,13 +17,16 @@ export default function GraphsGrid({ onSelect }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showAdmin, setShowAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const clickCount = useRef(0);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isAdmin = !!user && !!ADMIN_ENV && user.id === ADMIN_ENV;
+  useEffect(() => {
+    if (user) checkIsAdmin(user.id).then((r) => setIsAdmin(r.isAdmin)).catch(() => {});
+  }, [user]);
 
   useEffect(() => {
     getGraphs()

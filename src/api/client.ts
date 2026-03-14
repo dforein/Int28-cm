@@ -96,3 +96,8 @@ export const updateEdge = (graphId: string, edgeId: string, data: Partial<Pick<i
 
 export const deleteEdge = (graphId: string, edgeId: string) =>
   req<{ ok: boolean }>(`/graphs/${graphId}/edges/${edgeId}`, { method: 'DELETE' });
+
+export const checkIsAdmin = (userId: string) =>
+  req<{ isAdmin: boolean }>('/is-admin', {
+    headers: { 'x-user-id': userId },
+  });
