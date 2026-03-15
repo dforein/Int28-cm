@@ -438,11 +438,16 @@ function GraphEditorInner({
   }, [graphId, user.id, rootNodeId]); // stable deps only — state read from refs
 
   // Node saved from panel
-  function handleNodeSaved(updated: AppNode) {
+  async function handleNodeSaved(updated: AppNode) {
     pushUndo();
     setAppNodes((prev) => prev.map((n) => (n.id === updated.id ? updated : n)));
-    enqueueSave({ type: 'updateNode', nodeId: updated.id, data: { title: updated.title, body: updated.body } });
     setEditingNode(null);
+    try {
+      await updateNode(updated.id, { title: updated.title, body: updated.body });
+      setSaveStatus('saved');
+    } catch {
+      setSaveStatus('error');
+    }
   }
 
   function handleNodeDeleted(nodeId: string) {

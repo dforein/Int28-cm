@@ -98,8 +98,8 @@ function CustomNode({ data, selected }: Props) {
   };
 
   const labelStyle: React.CSSProperties = shape === 'diamond'
-    ? { transform: 'rotate(-45deg)', display: 'block', maxWidth: 52, textAlign: 'center', wordBreak: 'break-word', lineHeight: 1.2 }
-    : { textAlign: 'center', wordBreak: 'break-word', lineHeight: 1.3 };
+    ? { transform: 'rotate(-45deg)', display: 'block', maxWidth: 52, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }
+    : { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.3, maxWidth: '100%' };
 
   return (
     <div
