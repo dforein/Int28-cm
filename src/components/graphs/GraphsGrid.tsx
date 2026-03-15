@@ -25,7 +25,14 @@ export default function GraphsGrid({ onSelect }: Props) {
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (user) checkIsAdmin(user.id).then((r) => setIsAdmin(r.isAdmin)).catch(() => {});
+    if (!user) return;
+    
+    // LOCAL DEV ONLY - comment after local dev is done
+    //if (import.meta.env.VITE_ADMIN_USER_ID && user.id === import.meta.env.VITE_ADMIN_USER_ID) { setIsAdmin(true); console.log("DEBUG OK"); return; }
+
+    // Production: verify via API (uses ADMIN_USER_ID secret)
+    console.log("DEBUG NOT OK" + import.meta.env.VITE_ADMIN_USER_ID)
+    checkIsAdmin(user.id).then((r) => setIsAdmin(r.isAdmin)).catch(() => {});
   }, [user]);
 
   useEffect(() => {

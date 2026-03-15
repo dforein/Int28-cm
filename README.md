@@ -43,17 +43,9 @@ npx wrangler d1 execute int28-cm --local --file=schema.sql
 ```
 
 ### 3. Set environment variables
+Search in the project files "`LOCAL DEV ONLY`" and uncomment the code (remember to comment it later).
+
 Start the server with
-
-then create a user and copy the key.
-
-Create `.env.local`:
-```
-VITE_ADMIN_USER_ID=your-key-here
-```
-in order to make that user admin.
-
-### 4. Start the dev server
 ```bash
 # Terminal 1 — Wrangler (handles API + D1)
 npx wrangler pages dev --proxy 5173
@@ -61,10 +53,14 @@ npx wrangler pages dev --proxy 5173
 # Terminal 2 — Vite
 npm run dev
 ```
+and open [http://localhost:5173](http://localhost:5173).
+Create a user and copy the key.
 
-Open [http://localhost:5173](http://localhost:5173).
-
----
+Create `.env.local`:
+```
+VITE_ADMIN_USER_ID=your-key-here
+```
+in order to make that user admin.
 
 ## Deployment (Cloudflare Pages)
 

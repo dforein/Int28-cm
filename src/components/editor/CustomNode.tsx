@@ -97,9 +97,43 @@ function CustomNode({ data, selected }: Props) {
     ...(selected && !isRoot && { boxShadow: `0 0 0 2px ${userColor}88` }),
   };
 
+  const words = node.title.split(' ');
+  const maxWordLen = Math.max(...words.map(w => w.length));
+  const threshold = 9;
+  const lengthForScaling = Math.max(0, maxWordLen - threshold);
+  const dynamicFontSize = shape === 'circle'
+    ? (isRoot 
+        ? Math.max(7, 15 - Math.floor(lengthForScaling * 0.75))
+        : Math.max(5, 12 - Math.floor(lengthForScaling * 0.75)))
+    : shape === 'diamond'
+        ? Math.max(5, 11 - Math.floor(lengthForScaling * 0.75))
+        : Math.max(6, 13 - Math.floor(lengthForScaling * 0.6));
+
+  const commonStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    flexDirection: 'column',
+    overflowWrap: 'normal',
+    wordBreak: 'keep-all',
+    lineHeight: 1.1,
+    textOverflow: 'ellipsis',
+    fontSize: dynamicFontSize,
+  };
+
   const labelStyle: React.CSSProperties = shape === 'diamond'
-    ? { transform: 'rotate(-45deg)', display: 'block', maxWidth: 52, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }
-    : { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.3, maxWidth: '100%' };
+    ? {
+        ...commonStyles,
+        transform: 'rotate(-45deg)', 
+        width: '100%',
+        height: '100%',
+      }
+    : {
+        ...commonStyles,
+        width: '100%',
+        height: '100%',
+      };
 
   return (
     <div

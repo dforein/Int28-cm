@@ -11,7 +11,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const body = await request.json() as { name?: string; created_by?: string };
   if (!body.name || !body.created_by) return err('name and created_by required');
 
-  if (body.created_by !== env.ADMIN_USER_ID) return err('Forbidden', 403);
+  if (env.ADMIN_USER_ID && body.created_by !== env.ADMIN_USER_ID) return err('Forbidden', 403);
 
   const id = uuid();
   const now = Date.now();
