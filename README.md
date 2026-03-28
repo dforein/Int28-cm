@@ -104,10 +104,8 @@ This is read server-side by the Functions.
 
 ## Admin panel
 
-The admin panel is hidden by default. To open it:
-1. Set `VITE_ADMIN_USER_ID` to your user UUID in both `.env.local` and Cloudflare Pages env vars
-2. A golden dot appears next to the **int28-cm** text, in the left top corner
-3. **Triple-click** the text to open the admin panel
+The admin panel is hidden by default. If you join as admin user, a golden dot appears next to the **int28-cm** text, in the left top corner: 
+**Triple-click** the text to open the admin panel.
 
 From the admin panel you can:
 - Manage graphs (create, remove)
